@@ -1,0 +1,27 @@
+{
+    "methods": {
+        "view": [
+            {
+                "name" : "methodName",
+                "returnType" : "string",
+                "args":[
+                    {
+                        "name": "argumentName",
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "complexArgumentName",
+                        "type": {
+                            "name1" : "string",
+                            "name2" : "boolean",
+                            "name3" : {
+                                "name1" : "number"
+                            }
+                        }
+                    }
+                ]   
+            }
+        ]
+    },
+    "byteCode": "<wasm file content here>"
+}
