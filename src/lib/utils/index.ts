@@ -6,6 +6,7 @@ export const readFile = (filePath: string) => {
 };
 
 export const writeFile = (filePath: string, data: string) => {
+  // TODO: if folders from a file path are not exists - they should be created
   return fs.writeFileSync(filePath, data, 'utf-8');
 };
 
