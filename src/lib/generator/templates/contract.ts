@@ -58,7 +58,7 @@ const _getContractTypeDefinition = ({
   viewFunctions: ViewFunctionDefinition[];
   callFunctions: CallFunctionDefinition[];
 }) => {
-  return `class ${contractName} extends ${NearContractBase.name} {
+  return `export class ${contractName} extends ${NearContractBase.name} {
     
 ${_getViewFunctions(viewFunctions)}
 

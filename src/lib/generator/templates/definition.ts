@@ -3,27 +3,24 @@ import { ContractTypeDefinition, getContractTypeDefinition } from './contract';
 import { FunctionDefinitionBase } from './functions';
 
 const _getTypeFromFunctions = (functions: FunctionDefinitionBase[]) => {
-  return functions.filter((f) => f.hasArgs && f.argsType).map((f) => f.argsType?.type) as string[];
+    return functions.filter((f) => f.hasArgs && f.argsType).map((f) => f.argsType?.type) as string[];
 };
 export const _getTypesSection = (contractDef: ContractTypeDefinition) => {
-  const typesCall = _getTypeFromFunctions(contractDef.callFunctions);
-  const typesView = _getTypeFromFunctions(contractDef.viewFunctions);
+    const typesCall = _getTypeFromFunctions(contractDef.callFunctions);
+    const typesView = _getTypeFromFunctions(contractDef.viewFunctions);
 
-  // TODO: add return types from view fn`s
-  const fnTypes = [
-    ...typesCall,
-    ...typesView,
-    // ...contractDef.viewFunctions.map(v=>v.returnType)
-  ];
+    // TODO: add return types from view fn`s
+    const fnTypes = [
+        ...typesCall,
+        ...typesView,
+    ];
 
-  console.log('contract types', fnTypes);
-
-  return fnTypes.join('\n');
+    return fnTypes.map(t => `export ${t}`).join('\n');
 };
 
 export const getFullDefinitionFromAbi = (abi: NearContractAbi) => {
-  const contractDef = getContractTypeDefinition(abi);
-  const typesSection = _getTypesSection(contractDef);
+    const contractDef = getContractTypeDefinition(abi);
+    const typesSection = _getTypesSection(contractDef);
 
-  return [typesSection, contractDef.contract].join('\n\n');
+    return [typesSection, contractDef.contract].join('\n\n');
 };
