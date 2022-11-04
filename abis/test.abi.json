@@ -1,25 +1,21 @@
 {
+    "contractName": "TestNear",
     "methods": {
         "view": [
             {
-                "name" : "methodName",
-                "returnType" : "string",
-                "args":[
-                    {
-                        "name": "argumentName",
-                        "type": "boolean"
-                    },
-                    {
-                        "name": "complexArgumentName",
-                        "type": {
-                            "name1" : "string",
-                            "name2" : "boolean",
-                            "name3" : {
-                                "name1" : "number"
-                            }
-                        }
-                    }
-                ]   
+                "name": "test_view_method_name",
+                "args": [
+                   
+                ]
+            }
+        ],
+        "call": [
+            {
+                "name": "test_call_method_name",
+                "isPayable": true,
+                "args": [
+                   
+                ]
             }
         ]
     },

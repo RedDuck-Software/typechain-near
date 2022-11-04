@@ -1,16 +1,16 @@
-import * as fs from 'fs'
-import * as glob from 'glob'
+import  fs from 'fs';
+import  glob from 'glob';
 
 export const readFile = (filePath: string) => {
-    return fs.readFileSync(filePath, 'utf-8');
-}
+  return fs.readFileSync(filePath, 'utf-8');
+};
 
 export const getFilePathesByGlob = async (globPattern: string) => {
-    console.log('Glob pattern', globPattern)
-    return new Promise<string[]>((resolve, reject) => {
-        glob(globPattern, { fs }, function (error, files) {
-            if (error) reject(error);
-            resolve(files);
-        })
+  console.log('Glob pattern', globPattern);
+  return new Promise<string[]>((resolve, reject) => {
+    glob(globPattern, { fs }, function (error: any, files: string[]) {
+      if (error) reject(error);
+      resolve(files);
     });
-}
+  });
+};

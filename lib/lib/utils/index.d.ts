@@ -1,3 +1,2 @@
-/// <reference types="node" />
-export declare const readFile: (filePath: string) => Buffer;
+export declare const readFile: (filePath: string) => string;
 export declare const getFilePathesByGlob: (globPattern: string) => Promise<string[]>;
