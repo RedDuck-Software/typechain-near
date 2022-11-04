@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
 import { DEFAULT_ABIS_OUTPUT_PATH, DEFAULT_ABIS_PATH, DEFAULT_OUTPUT_PATH } from './constants';
-import  generator from './lib/generator';
+import generator from './lib/generator';
 import parser from './lib/parser';
 
 const program = new Command();

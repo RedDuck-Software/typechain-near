@@ -1,6 +1,7 @@
 import { parseAbi } from '../abis';
 import { getFilePathesByGlob, readFile } from '../utils';
 import { getContractTypeDefinition } from './templates/contract';
+import { getFullDefinitionFromAbi } from './templates/definition';
 import { getViewFunctionDefinition } from './templates/functions';
 
 type GenerateFromAbisParams = {
@@ -17,7 +18,7 @@ const generateFromAbi = async ({ abiPath, outputFolderPath }: { abiPath: string;
 
   console.log('parsedAbi', JSON.stringify(abi));
 
-  const res = getContractTypeDefinition(abi);
+  const res = getFullDefinitionFromAbi(abi);
   console.log(res);
 };
 

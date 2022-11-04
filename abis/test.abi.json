@@ -5,7 +5,19 @@
             {
                 "name": "test_view_method_name",
                 "args": [
-                   
+                   {
+                       "name": "some_arg_name",
+                       "type": {
+                           "some_name":"string",
+                           "some_nest": {
+                            "val": "number"
+                           }
+                       }
+                   }, 
+                   {
+                       "name": "some_bool",
+                       "type": "boolean"
+                   }
                 ]
             }
         ],

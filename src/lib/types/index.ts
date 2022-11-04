@@ -1,3 +1,4 @@
+import { BN } from 'bn.js';
 import { Account, Near } from 'near-api-js';
 import { FinalExecutionOutcome } from 'near-api-js/lib/providers';
 
@@ -47,8 +48,8 @@ export abstract class NearContractBase {
       contractId: this.contractId,
       methodName,
       args: args ?? {},
-      gas: overrides?.gas,
-      attachedDeposit: overrides?.attachedDeposit,
+      gas: overrides?.gas ? new BN(overrides?.gas?.toString()) : undefined,
+      attachedDeposit: overrides?.attachedDeposit ? new BN(overrides?.attachedDeposit?.toString()) : undefined,
     });
   }
 
