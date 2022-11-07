@@ -6,7 +6,7 @@ import parser from './lib/parser';
 
 const program = new Command();
 
-program.name('Near TypeChain utility').description('Near TypeChain utility').version('0.0.1');
+program.name('Near TypeChain utility').description('Near TypeChain utility').version('0.0.1-dev');
 
 program
   .command('generate')
