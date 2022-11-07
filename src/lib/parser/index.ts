@@ -1,10 +1,9 @@
-
 type ParseContractsParams = {
-    abisPath: string
-}
+  abisPath: string;
+};
 
-const parseContractsIntoAbis = ({ abisPath }: ParseContractsParams) => { 
-    throw 'Parse is not implemented';
-}
+const parseContractsIntoAbis = ({ abisPath }: ParseContractsParams) => {
+  throw 'Parse is not implemented';
+};
 
 export = parseContractsIntoAbis;

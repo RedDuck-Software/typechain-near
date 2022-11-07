@@ -1,31 +1,39 @@
-type KeysMatching<T, V> = NonNullable<
-  { [K in keyof T]: T[K] extends V ? K : never }[keyof T]
->;
-
 export type PrimitiveType = 'string' | 'number' | 'boolean';
 
 export type ComplexType = {
-    [key:string]: PrimitiveType | ComplexType
-}
+  [key: string]: PrimitiveType | ComplexType;
+};
 
-type NearFunction = {
-    name: string,
-    returnType: "string",
-    args: Array<{
-        name: string,
-        type: PrimitiveType | ComplexType
-    }>
-}
+export const isPrimitive = (type: PrimitiveType | ComplexType) => {
+  if (typeof 0 === type || typeof '' === type || typeof false === type) return true;
+  return false;
+};
+
+type NearFunctionBase = {
+  name: string;
+  args: Array<{
+    name: string;
+    type: PrimitiveType | ComplexType;
+  }>;
+};
+
+export type NearFunctionView = {
+  returnType?: PrimitiveType | ComplexType | 'void';
+} & NearFunctionBase;
+
+export type NearFunctionCall = {
+  isPayable: boolean;
+} & NearFunctionBase;
 
 export type NearContractAbi = {
-    methods: {
-        view: Array<NearFunction>,
-        call: Array<NearFunction>,
-    },
-    byteCode: string
-}
+  contractName: string;
+  methods: {
+    view: Array<NearFunctionView>;
+    call: Array<NearFunctionCall>;
+  };
+  byteCode: string;
+};
 
-
-export const parseAbi = (abiJson: string) =>{
-    return JSON.parse(abiJson) as NearContractAbi;
-}
+export const parseAbi = (abiJson: string) => {
+  return JSON.parse(abiJson) as NearContractAbi;
+};
