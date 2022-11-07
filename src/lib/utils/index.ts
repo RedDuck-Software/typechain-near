@@ -7,7 +7,11 @@ export const readFile = (filePath: string) => {
 };
 
 export const writeFile = (filePath: string, data: string) => {
-  // TODO: if folders from a file path are not exists - they should be created
+  const dirPath = filePath.substring(0, filePath.lastIndexOf('/'));
+  console.log(dirPath);
+
+  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+
   return fs.writeFileSync(filePath, data, 'utf-8');
 };
 
