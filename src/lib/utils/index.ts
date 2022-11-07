@@ -8,7 +8,6 @@ export const readFile = (filePath: string) => {
 
 export const writeFile = (filePath: string, data: string) => {
   const dirPath = filePath.substring(0, filePath.lastIndexOf('/'));
-  console.log(dirPath);
 
   if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
 
@@ -16,7 +15,6 @@ export const writeFile = (filePath: string, data: string) => {
 };
 
 export const getFilePathesByGlob = async (globPattern: string) => {
-  console.log('Glob pattern', globPattern);
   return new Promise<string[]>((resolve, reject) => {
     glob(globPattern, { fs }, function (error: any, files: string[]) {
       if (error) reject(error);

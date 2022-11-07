@@ -64,10 +64,12 @@ export abstract class NearContractBase {
       contractId: this.contractId,
       methodName,
       args: args ?? {},
-      parse: (resp) => { 
-        return JSON.parse(Buffer.from(resp).toString('utf8'))
+      parse: (resp) => {
+        return JSON.parse(Buffer.from(resp).toString('utf8'));
       },
-      stringify: (req) => { return Buffer.from(JSON.stringify(req), 'utf8'); }
+      stringify: (req) => {
+        return Buffer.from(JSON.stringify(req), 'utf8');
+      },
     });
   }
 }

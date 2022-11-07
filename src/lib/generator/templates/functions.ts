@@ -40,7 +40,6 @@ const getReturnTypeNameFromFunc = (name: string) => {
 
 const convertTypeToString = (type: PrimitiveType | ComplexType): string => {
   if (typeof type === 'object') {
-    console.log('type is object', type);
     return `{\n${Object.keys(type)
       .map((p) => {
         return `${p}: ${convertTypeToString((type as ComplexType)[p])}`;
