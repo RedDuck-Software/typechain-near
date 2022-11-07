@@ -1,7 +1,7 @@
 {
   "name": "near-typechain",
   "author": "RedDuck Software",
-  "version": "0.0.1",
+  "version": "0.0.1-dev",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -40,6 +40,7 @@
     "@types/glob": "^8.0.0",
     "@types/minimist": "^1.2.2",
     "@types/node": "^18.11.9",
+    "@types/prettier": "^2.7.1",
     "@types/uppercamelcase": "^3.0.0",
     "prettier": "^2.7.1",
     "tslint": "^6.1.3",

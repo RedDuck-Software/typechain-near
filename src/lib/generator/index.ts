@@ -1,6 +1,6 @@
 import path from 'path';
 import { parseAbi } from '../abis';
-import { getFilePathesByGlob, readFile, writeFile } from '../utils';
+import { getFilePathesByGlob, prettifyCode, readFile, writeFile } from '../utils';
 import { getContractTypeDefinition } from './templates/contract';
 import { getFullDefinitionFromAbi } from './templates/definition';
 import { getViewFunctionDefinition } from './templates/functions';
@@ -18,11 +18,9 @@ const readAbi = (abiPath: string) => {
 const generateFromAbi = async ({ abiPath, outputFolderPath }: { abiPath: string; outputFolderPath: string }) => {
   const abi = readAbi(abiPath);
 
-  console.log('parsedAbi', JSON.stringify(abi));
+  const res = prettifyCode(getFullDefinitionFromAbi(abi));
 
-  const res = getFullDefinitionFromAbi(abi);
-  console.log(res);
-
+  console.log('Res', res);
   return {
     fileContent: res,
     contractName: abi.contractName,
@@ -44,7 +42,7 @@ const generateFromAbis = async ({ abisPath, outputFolderPath }: GenerateFromAbis
     else throw `Contract name is not unique: ${contractName}`;
   }
 
-  const indexFileContent = generateIndexFile(contracts);
+  const indexFileContent = prettifyCode(generateIndexFile(contracts));
 
   console.log('indexFile', indexFileContent);
 

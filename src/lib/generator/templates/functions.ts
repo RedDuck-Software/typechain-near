@@ -55,7 +55,7 @@ const convertTypeToString = (type: PrimitiveType | ComplexType): string => {
 
 const covertArgsToTypeString = (typeName: string, func: NearFunctionView) => {
   const typeBody = func.args.map((arg) => `${arg.name}: ${convertTypeToString(arg.type)}`).join(',\n');
-  const fullType = `type ${typeName} {\n ${typeBody} \n}`;
+  const fullType = `type ${typeName} = {\n ${typeBody} \n}`;
   return fullType;
 };
 

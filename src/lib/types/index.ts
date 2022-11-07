@@ -53,13 +53,13 @@ export abstract class NearContractBase {
     });
   }
 
-  protected functionView<TArgs extends object = object, TReturn = unknown>({
+  protected functionView<TArgs extends object = object, TReturn = any>({
     methodName,
     args,
   }: {
     methodName: string;
     args?: TArgs;
-  }) {
+  }): Promise<TReturn> {
     if (!this._signer) throw new Error('Signer is not defined');
 
     return this._signer.viewFunction({

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import glob from 'glob';
+import prettier from 'prettier';
 
 export const readFile = (filePath: string) => {
   return fs.readFileSync(filePath, 'utf-8');
@@ -18,4 +19,8 @@ export const getFilePathesByGlob = async (globPattern: string) => {
       resolve(files);
     });
   });
+};
+
+export const prettifyCode = (code: string) => {
+  return prettier.format(code, { parser: 'babel-ts', semi: false, singleQuote: true });
 };
