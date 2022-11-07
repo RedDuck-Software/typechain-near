@@ -4,6 +4,7 @@
         "view": [
             {
                 "name": "test_view_method_name",
+                "returnType" : "string",
                 "args": [
                    {
                        "name": "some_arg_name",

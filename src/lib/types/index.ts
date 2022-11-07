@@ -1,5 +1,5 @@
 import { BN } from 'bn.js';
-import { Account, Near } from 'near-api-js';
+import { Account, Contract, Near } from 'near-api-js';
 import { FinalExecutionOutcome } from 'near-api-js/lib/providers';
 
 export type NearBigint = number | string | bigint;
@@ -29,9 +29,7 @@ export abstract class NearContractBase {
     return this._signer;
   }
 
-  public connect(account: Account) {
-    //  TODO: implement
-  }
+  public abstract connect(account: Account): NearContractBase;
 
   protected functionCall<TArgs extends object = object>({
     methodName,
@@ -53,7 +51,7 @@ export abstract class NearContractBase {
     });
   }
 
-  protected functionView<TArgs extends object = object, TReturn = any>({
+  protected functionView<TArgs extends object = object, TReturn = unknown>({
     methodName,
     args,
   }: {
@@ -62,17 +60,25 @@ export abstract class NearContractBase {
   }): Promise<TReturn> {
     if (!this._signer) throw new Error('Signer is not defined');
 
-    return this._signer.viewFunction({
+    return this._signer.viewFunctionV2({
       contractId: this.contractId,
       methodName,
       args: args ?? {},
+      parse: (resp) => { 
+        return JSON.parse(Buffer.from(resp).toString('utf8'))
+      },
+      stringify: (req) => { return Buffer.from(JSON.stringify(req), 'utf8'); }
     });
   }
 }
 
 export class NearContract extends NearContractBase {
-  constructor(accountId: string, signerAccount: Account) {
-    super(accountId, signerAccount);
+  constructor(contractId: string, signerAccount: Account) {
+    super(contractId, signerAccount);
+  }
+
+  public connect(account: Account): NearContract {
+    return new NearContract(this.contractId, account);
   }
 
   public call = new Proxy(

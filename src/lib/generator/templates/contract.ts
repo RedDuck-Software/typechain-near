@@ -24,10 +24,10 @@ const _getViewFunctions = (functions: ViewFunctionDefinition[]) => {
   return functions
     .map((f) => {
       return `public ${f.signature} {
-    return this.functionView<${f?.argsType?.name ?? 'object'}, ${f.returnType.name}>({
-        methodName: '${f.contractMethodName}',
-        args: ${_getFunctionArgs(f)}
-    })
+      return this.functionView<${f?.argsType?.name ?? 'object'}, ${f.returnType.name}>({
+          methodName: '${f.contractMethodName}',
+          args: ${_getFunctionArgs(f)}
+      })
 }`;
     })
     .join('\n');
@@ -59,7 +59,15 @@ const _getContractTypeDefinition = ({
   callFunctions: CallFunctionDefinition[];
 }) => {
   return `export class ${contractName} extends ${NearContractBase.name} {
-    
+
+constructor(contractId: string, signerAccount: Account) {
+  super(contractId, signerAccount);
+}
+
+public connect(account: Account): ${contractName} {
+  return new ${contractName}(this.contractId, account);
+}
+  
 ${_getViewFunctions(viewFunctions)}
 
 ${_getCallFunctions(callFunctions)}
