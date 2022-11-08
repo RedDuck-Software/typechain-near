@@ -4,10 +4,14 @@
         "view": [
             {
                 "name": "test_view_method_name",
-                "returnType" : "string",
+                "returnType" : {
+                    "type": "boolean",
+                    "isArray": true
+                },
                 "args": [
                    {
                        "name": "some_arg_name",
+                       "isArray": "false",
                        "type": {
                            "some_name":"string",
                            "some_nest": {
