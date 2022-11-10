@@ -24,7 +24,7 @@ const _getViewFunctions = (functions: ViewFunctionDefinition[]) => {
   return functions
     .map((f) => {
       return `public ${f.signature} {
-      return this.functionView<${f?.argsType?.name ?? 'object'}, ${f.returnType.name}>({
+      return this.functionView<${f?.argsType?.name ?? 'object'}, ${f.returnType.name}${f.returnType.isArray && f.returnType.name !== 'void' ? '[]' : ''}>({
           methodName: '${f.contractMethodName}',
           args: ${_getFunctionArgs(f)}
       })

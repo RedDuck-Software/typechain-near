@@ -2,7 +2,6 @@
 import { Command } from 'commander';
 import { DEFAULT_ABIS_OUTPUT_PATH, DEFAULT_ABIS_PATH, DEFAULT_OUTPUT_PATH } from './constants';
 import generator from './lib/generator';
-import parser from './lib/parser';
 
 const program = new Command();
 
@@ -17,12 +16,5 @@ program
     return generator({ abisPath: abis, outputFolderPath: output });
   });
 
-program
-  .command('parse')
-  .description('Generates ABIs from Near JavaScript contracts')
-  .option('-o, --output <item>', 'abis output folder path', DEFAULT_ABIS_OUTPUT_PATH)
-  .action(({ output }) => {
-    return parser({ abisPath: output });
-  });
 
 program.parse();
