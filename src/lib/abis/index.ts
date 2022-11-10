@@ -1,9 +1,9 @@
 export const isPrimitive = (type: PrimitiveType | NearFunctionArg) => {
-  if (typeof 0 === type || typeof '' === type || typeof false === type || type === 'void') return true;
+  if (typeof 0 === type || typeof '' === type || typeof false === type || type === 'void' || type == 'unknown') return true;
   return false;
 };
 
-export type PrimitiveType = 'string' | 'number' | 'boolean' | 'void';
+export type PrimitiveType = 'string' | 'number' | 'boolean' | 'void' | 'unknown';
 
 export type NearFunctionType = {
   name: string,
