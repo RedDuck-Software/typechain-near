@@ -1,40 +1,71 @@
 {
-    "contractName": "TestNear",
+    "contractName": "TestContract",
     "methods": {
-        "view": [
-            {
-                "name": "test_view_method_name",
-                "returnType" : {
-                    "type": "boolean",
-                    "isArray": true
-                },
-                "args": [
-                   {
-                       "name": "some_arg_name",
-                       "isArray": "false",
-                       "type": {
-                           "some_name":"string",
-                           "some_nest": {
-                            "val": "number"
-                           }
-                       }
-                   }, 
-                   {
-                       "name": "some_bool",
-                       "type": "boolean"
-                   }
-                ]
-            }
-        ],
         "call": [
             {
-                "name": "test_call_method_name",
+                "name": "test_call_method",
                 "isPayable": true,
-                "args": [
-                   
-                ]
+                "args": {
+                    "isArray": true,
+                    "isOptional": true,
+                    "type": {
+                        "someVal": {
+                            "isArray": false,
+                            "isOptional": true,
+                            "type": "string"
+                        },
+                        "someValNested": {
+                            "isArray": false,
+                            "isOptional": false,
+                            "type": {
+                                "val1": {
+                                    "isArray": false,
+                                    "isOptional": false,
+                                    "type": "string"
+                                },
+                                "val2": {
+                                    "isArray": false,
+                                    "isOptional": false,
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "view": [
+            {
+                "name": "test_view_method",
+                "returnType": {
+                    "isArray": true,
+                    "isOptional": true,
+                    "type": "string"
+                },
+                "args": {
+                    "someVal": {
+                        "isArray": false,
+                        "isOptional": true,
+                        "type": "string"
+                    },
+                    "someValNested": {
+                        "isArray": false,
+                        "isOptional": false,
+                        "type": {
+                            "val1": {
+                                "isArray": false,
+                                "isOptional": false,
+                                "type": "string"
+                            },
+                            "val2": {
+                                "isArray": false,
+                                "isOptional": false,
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
             }
         ]
-    },
-    "byteCode": "<wasm file content here>"
+    }
 }

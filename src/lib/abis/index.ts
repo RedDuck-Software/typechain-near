@@ -1,28 +1,28 @@
-export type PrimitiveType = 'string' | 'number' | 'boolean' | 'void';
-
-export type ComplexType = {
-  [key: string]: PrimitiveType | ComplexType;
-};
-
-export const isPrimitive = (type: PrimitiveType | ComplexType) => {
+export const isPrimitive = (type: PrimitiveType | NearFunctionArg) => {
   if (typeof 0 === type || typeof '' === type || typeof false === type || type === 'void') return true;
   return false;
 };
 
+export type PrimitiveType = 'string' | 'number' | 'boolean' | 'void';
+
+export type NearFunctionType = {
+  name: string,
+  isArray?: boolean,
+  isOptional?: boolean,
+  type: PrimitiveType | NearFunctionArg,
+}
+
+export type NearFunctionArg = {
+    [name: string]: NearFunctionType;
+}
+
 type NearFunctionBase = {
   name: string;
-  args: Array<{
-    name: string;
-    isArray: boolean,
-    type: PrimitiveType | ComplexType;
-  }>;
+  args: NearFunctionType;
 };
 
 export type NearFunctionView = {
-  returnType?: {
-    type: PrimitiveType | ComplexType;
-    isArray: boolean
-  } 
+  returnType?: NearFunctionType
 } & NearFunctionBase;
 
 export type NearFunctionCall = {

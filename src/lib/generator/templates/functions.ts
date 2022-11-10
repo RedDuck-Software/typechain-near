@@ -1,4 +1,4 @@
-import { ComplexType, isPrimitive, NearFunctionCall, NearFunctionView, PrimitiveType } from '../../abis';
+import { isPrimitive, NearFunctionArg, NearFunctionCall, NearFunctionType, NearFunctionView, PrimitiveType } from '../../abis';
 import camelCase from 'uppercamelcase';
 import { CallOverrides, CallOverridesPayable, NearContract } from '../../types';
 
@@ -40,23 +40,30 @@ const getReturnTypeNameFromFunc = (name: string) => {
   return getTypeNameFromFunc(name) + 'Return';
 };
 
-const convertTypeToString = (type: PrimitiveType | ComplexType): string => {
-  if (typeof type === 'object') {
-    return `{\n${Object.keys(type)
-      .map((p) => {
-        return `${p}: ${convertTypeToString((type as ComplexType)[p])}`;
+const convertTypeToString = (type: NearFunctionArg | NearFunctionType | PrimitiveType): string => {
+  console.log('type', type)
+  if (isPrimitive(type as PrimitiveType))
+    return type as string;
+  else if (isPrimitive((type as NearFunctionType)?.type)) {
+    return (type as NearFunctionType).type as string;
+  } else if (typeof type === 'object' && (type as NearFunctionType).type) {
+    return convertTypeToString(type.type);
+  } else if (typeof type === 'object') {
+    return `{\n${Object.entries(type)
+      .map(([p, _value]) => {
+        const value = _value as NearFunctionType
+        console.log(p)
+        return `${p}: ${convertTypeToString(value.type)}${value.isArray ? '[]' : ''}`;
       })
       .join(',\n')}\n}`;
-  } else if (isPrimitive(type)) {
-    return type as string;
   } else {
     throw 'Not supported type';
   }
 };
 
 const covertArgsToTypeString = (typeName: string, func: NearFunctionView) => {
-  const typeBody = func.args.map((arg) => `${arg.name}: ${convertTypeToString(arg.type)}`).join(',\n');
-  const fullType = `type ${typeName} = {\n ${typeBody} \n}`;
+  const typeBody = convertTypeToString(func.args);
+  const fullType = `type ${typeName} = ${typeBody}`;
   return fullType;
 };
 
@@ -74,28 +81,20 @@ const getViewFunctionSignature = (fnName: string, argTypeName: string | undefine
 };
 
 const getCallFunctionSignature = (fnName: string, argTypeName: string | undefined, isPayable: boolean) => {
-  // TODO: get FinalExecutionOutcome type name from type.name
   return `async ${fnName}(${signatureArgToString(argTypeName)}${argTypeName ? ',' : ''} overrides?: ${CallOverrides.name
     }${isPayable ? ` & ${CallOverridesPayable.name}` : ''}): Promise<FinalExecutionOutcome>`;
 };
 
 export const getViewFunctionDefinition = (func: NearFunctionView): ViewFunctionDefinition => {
-  let resultTypeName: string;
+  let resultTypeName = func?.returnType ? convertTypeToString(func?.returnType) : 'unknown'; // 'void'; 
 
-  if (func.returnType && func.returnType?.type !== 'void' && isPrimitive(func.returnType?.type))
-    resultTypeName = func.returnType?.type as string;
-  else if (!func.returnType || func.returnType?.type === 'void') resultTypeName = 'void';
-  else resultTypeName = getReturnTypeNameFromFunc(func.name);
-
-  const hasArgs = Boolean(func?.args?.length);
+  const hasArgs = Boolean(Object.keys(func.args?.type ?? {})?.length);
+  console.log({ hasArgs, k: Object.keys(func.args?.type ?? {}) })
   const argsTypeName = hasArgs ? getInputTypeNameFromFunc(func.name) : undefined;
 
   const argsType = hasArgs ? covertArgsToTypeString(argsTypeName ?? '', func) : undefined;
-  const funcSignature = getViewFunctionSignature(func.name, argsTypeName, resultTypeName, func.returnType?.isArray ?? false);
+  const funcSignature = getViewFunctionSignature(func.name, argsTypeName, resultTypeName, false/*func.returnType?.isArray ?? false*/);
 
-  const returnType = func?.returnType?.type && !isPrimitive(func?.returnType?.type) ? covertReturnTypeToTypeString(resultTypeName, convertTypeToString(func?.returnType?.type)) : undefined;
-
-  console.log(returnType);
   return {
     signature: funcSignature,
     contractMethodName: func.name,
@@ -108,14 +107,13 @@ export const getViewFunctionDefinition = (func: NearFunctionView): ViewFunctionD
       : undefined,
     returnType: {
       name: resultTypeName,
-      type: returnType,
       isArray: func.returnType?.isArray ?? false
     },
   };
 };
 
 export const getCallFunctionDefinition = (func: NearFunctionCall): CallFunctionDefinition => {
-  const hasArgs = Boolean(func?.args?.length);
+  const hasArgs = Boolean(Object.keys(func.args?.type ?? {})?.length);
 
   const argsTypeName = hasArgs ? getInputTypeNameFromFunc(func.name) : undefined;
   const argsType = hasArgs ? covertArgsToTypeString(argsTypeName ?? '', func) : undefined;
